@@ -1,19 +1,32 @@
 language: perl
-perl:
-  - "5.8"
-  - "5.10"
-  - "5.22"
-  - "blead"             # builds perl from git
+cache:
+  directories:
+    # local::lib caching
+    - $HOME/perl5
 matrix:
   include:
-    - perl: 5.18
+    - perl: "5.16"
+      os: linux
+      dist: trusty
+      sudo: false
+    - perl: "5.18"
       env: COVERAGE=1   # enables coverage+coveralls reporting
+      os: linux
+      dist: trusty
+      sudo: false
+    - perl: "5.20"
+      os: linux
+      dist: trusty
+      sudo: false
+    - perl: "blead"
+      os: linux
+      dist: trusty
+      sudo: false
+    - perl: "system"
+      os: osx
   allow_failures:
     - perl: blead       # ignore failures for blead perl
 sudo: false             # faster builds as long as you don't need sudo access
 before_install:
-  - export PERL5OPT="${PERL5OPT}${PERL5OPT:+ }"'-Iblib/lib' # work around for Travis Perl helper (auto.bash $blib)
-  - if [ "$COVERAGE" == "1" ]; then
-      export HARNESS_PERL_SWITCHES="${HARNESS_PERL_SWITCHES}${HARNESS_PERL_SWITCHES:+ }"'-MDevel::Cover=-ignore,^x?t/,-ignore,ConfigData,-blib,0';
-    fi
-  - eval $(curl https://travis-perl.github.io/init) --auto
+  - export DEVOPS_BRANCH="master"
+  - eval "$(curl https://raw.githubusercontent.com/project-renard/devops/$DEVOPS_BRANCH/script/helper.pl | perl -- | awk '/^#START/,/^#END/ { print > "/dev/stdout"; next } { print > "/dev/stderr"}' )"
