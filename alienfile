@@ -14,11 +14,9 @@ share {
 	plugin Extract => 'tar.gz';
 
 	plugin 'Build::Autoconf';
-	if( $^O eq 'MSWin32' ) {
-		build [
-			'%{configure} --enable-shared',
-			'%{make}',
-			'%{make} install',
-		];
-	}
+	build [
+		'%{configure} --enable-static --enable-shared',
+		'%{make}',
+		'%{make} install',
+	];
 };
