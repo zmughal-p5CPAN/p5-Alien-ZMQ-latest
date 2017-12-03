@@ -19,4 +19,6 @@ share {
 		'%{make}',
 		'%{make} install',
 	];
+
+	plugin 'Gather::Dino';
 };
