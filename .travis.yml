@@ -3,6 +3,12 @@ cache:
   directories:
     # local::lib caching
     - $HOME/perl5
+addons:
+  apt:
+    packages:
+      - libzmq3-dev
+      - aspell     # for dzil Test::PodSpelling
+      - aspell-en  # for dzil Test::PodSpelling
 matrix:
   include:
     - perl: "5.16"
@@ -18,15 +24,24 @@ matrix:
       os: linux
       dist: trusty
       sudo: false
+    - perl: "5.20"
+      os: linux
+      dist: trusty
+      sudo: false
+      env: ALIEN_INSTALL_TYPE='system'
     - perl: "blead"
       os: linux
       dist: trusty
       sudo: false
     - perl: "system"
       os: osx
+    - perl: "system"
+      os: osx
+      env: ALIEN_INSTALL_TYPE='system'
   allow_failures:
     - perl: blead       # ignore failures for blead perl
 sudo: false             # faster builds as long as you don't need sudo access
 before_install:
+  - if [ -z "$ALIEN_INSTALL_TYPE" ]; then export ALIEN_INSTALL_TYPE='share'; fi
   - export DEVOPS_BRANCH="master"
   - eval "$(curl https://raw.githubusercontent.com/project-renard/devops/$DEVOPS_BRANCH/script/helper.pl | perl -- | awk '/^#START/,/^#END/ { print > "/dev/stdout"; next } { print > "/dev/stderr"}' )"
