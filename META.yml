@@ -13,6 +13,7 @@ build_requires:
 configure_requires:
   Alien::Build: '0.32'
   Alien::Build::MM: '0.32'
+  Alien::Build::Plugin::Gather::Dino: '0'
   ExtUtils::MakeMaker: '6.52'
   perl: '5.006'
 dynamic_config: 1
@@ -24,14 +25,16 @@ meta-spec:
 name: Alien-ZMQ-latest
 requires:
   Alien::Base: '0.038'
-  parent: '0'
+  Alien::Role::Dino: '0'
+  Role::Tiny::With: '0'
+  base: '0'
   perl: '5.006'
   strict: '0'
   warnings: '0'
 resources:
   homepage: https://github.com/zmughal/p5-Alien-ZMQ-latest
   repository: https://github.com/zmughal/p5-Alien-ZMQ-latest.git
-version: '0.001'
+version: '0.002'
 x_alienfile:
   generated_by: 'Dist::Zilla::Plugin::AlienBuild version 0.24'
   requires:

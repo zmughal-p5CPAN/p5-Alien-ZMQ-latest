@@ -18,6 +18,7 @@ my %WriteMakefileArgs = (
   "CONFIGURE_REQUIRES" => {
     "Alien::Build" => "0.32",
     "Alien::Build::MM" => "0.32",
+    "Alien::Build::Plugin::Gather::Dino" => 0,
     "ExtUtils::MakeMaker" => "6.52"
   },
   "DISTNAME" => "Alien-ZMQ-latest",
@@ -26,7 +27,9 @@ my %WriteMakefileArgs = (
   "NAME" => "Alien::ZMQ::latest",
   "PREREQ_PM" => {
     "Alien::Base" => "0.038",
-    "parent" => 0,
+    "Alien::Role::Dino" => 0,
+    "Role::Tiny::With" => 0,
+    "base" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -34,7 +37,7 @@ my %WriteMakefileArgs = (
     "Test2::V0" => 0,
     "Test::Alien" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -45,11 +48,13 @@ my %FallbackPrereqs = (
   "Alien::Base" => "0.038",
   "Alien::Build" => "0.32",
   "Alien::Build::MM" => "0.32",
+  "Alien::Role::Dino" => 0,
   "Alien::gmake" => "0.14",
   "ExtUtils::MakeMaker" => "6.52",
+  "Role::Tiny::With" => 0,
   "Test2::V0" => 0,
   "Test::Alien" => 0,
-  "parent" => 0,
+  "base" => 0,
   "strict" => 0,
   "warnings" => 0
 );

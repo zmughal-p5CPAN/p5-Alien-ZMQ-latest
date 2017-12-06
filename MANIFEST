@@ -10,4 +10,5 @@ alienfile
 appveyor.yml
 dist.ini
 lib/Alien/ZMQ/latest.pm
+maint/devops.yml
 t/version.t

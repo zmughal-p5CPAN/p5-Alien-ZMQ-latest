@@ -1,10 +1,13 @@
 package Alien::ZMQ::latest;
 # ABSTRACT: Alien package for the ZeroMQ library
-$Alien::ZMQ::latest::VERSION = '0.001';
+$Alien::ZMQ::latest::VERSION = '0.002';
 use strict;
 use warnings;
 
-use parent qw(Alien::Base);
+use base qw( Alien::Base );
+use Role::Tiny::With qw( with );
+
+with 'Alien::Role::Dino';
 
 1;
 
@@ -20,7 +23,7 @@ Alien::ZMQ::latest - Alien package for the ZeroMQ library
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 DESCRIPTION
 
