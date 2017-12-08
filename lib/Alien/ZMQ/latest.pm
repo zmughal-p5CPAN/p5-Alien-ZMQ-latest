@@ -1,6 +1,6 @@
 package Alien::ZMQ::latest;
 # ABSTRACT: Alien package for the ZeroMQ library
-$Alien::ZMQ::latest::VERSION = '0.002';
+$Alien::ZMQ::latest::VERSION = '0.003';
 use strict;
 use warnings;
 
@@ -23,7 +23,7 @@ Alien::ZMQ::latest - Alien package for the ZeroMQ library
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 
