@@ -4,6 +4,8 @@ plugin 'PkgConfig' => 'libzmq';
 
 # http://zeromq.org/
 share {
+	requires 'Alien::gmake' => 0.14;
+
 	plugin Download => (
 		url => 'https://github.com/zeromq/libzmq/releases',
 		version => qr/zeromq-([\d\.]+)\.tar\.gz/,
@@ -19,8 +21,8 @@ share {
 			$enable_static ? '--enable-static' : '--disable-static',
 			'--enable-shared'
 		)),
-		'%{make}',
-		'%{make} install',
+		'%{gmake}',
+		'%{gmake} install',
 	];
 
 	plugin 'Gather::Dino';
