@@ -4,7 +4,10 @@ plugin 'PkgConfig' => 'libzmq';
 
 # http://zeromq.org/
 share {
-	requires 'Alien::cmake3';
+	my $prefer_cmake = $^O eq 'MSWin32';
+	if( $prefer_cmake ) {
+		requires 'Alien::cmake3';
+	}
 
 	plugin Download => (
 		url => 'https://github.com/zeromq/libzmq/releases',
@@ -14,17 +17,30 @@ share {
 	plugin Extract => 'tar.gz';
 
 	my $enable_static = $^O ne 'MSWin32';
-	plugin 'Build::CMake';
-	build [
-		[ '%{cmake}', -G => '%{cmake_generator}',
-			'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}',
-			"-DBUILD_STATIC=@{[ $enable_static ? 'ON' : 'OFF' ]}",
-			qw(-S .),
-			qw(-B build),
-		],
-		[ '%{make}', qw( -C build ) ],
-		[ '%{make}', qw( -C build ), 'install' ],
-	];
+	if( $prefer_cmake ) {
+		plugin 'Build::CMake';
+		build [
+			[ '%{cmake}', -G => '%{cmake_generator}',
+				'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}',
+				"-DBUILD_STATIC=@{[ $enable_static ? 'ON' : 'OFF' ]}",
+				qw(-S .),
+				qw(-B build),
+			],
+			[ '%{make}', qw( -C build ) ],
+			[ '%{make}', qw( -C build ), 'install' ],
+		];
+	} else {
+		plugin 'Build::Autoconf';
+		build [
+			join(' ',
+				'%{configure}',
+				( $enable_static ? '--enable-static' : '--disable-static' ),
+				'--enable-shared',
+			),
+			[ '%{make}' ],
+			[ '%{make}', 'install' ],
+		];
+	}
 
 	plugin 'Gather::Dino';
 };
