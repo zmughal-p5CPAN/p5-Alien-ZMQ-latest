@@ -4,7 +4,7 @@ plugin 'PkgConfig' => 'libzmq';
 
 # http://zeromq.org/
 share {
-	my $prefer_cmake = $^O eq 'MSWin32';
+	my $prefer_cmake = 0;
 	if( $prefer_cmake ) {
 		requires 'Alien::cmake3';
 	}
@@ -33,14 +33,18 @@ share {
 		];
 	} else {
 		plugin 'Build::Autoconf';
+		my $should_stub_tests = $^O eq 'MSWin32';
+		my @make_stub_tests = $should_stub_tests
+			? ( "noinst_LIBRARIES=" )
+			: ();
 		build [
 			join(' ',
 				'%{configure}',
 				( $enable_static ? '--enable-static' : '--disable-static' ),
 				'--enable-shared',
 			),
-			[ '%{make}' ],
-			[ '%{make}', 'install' ],
+			[ '%{make}', @make_stub_tests ],
+			[ '%{make}', 'install', @make_stub_tests ],
 		];
 	}
 
