@@ -4,6 +4,8 @@ plugin 'PkgConfig' => 'libzmq';
 
 # http://zeromq.org/
 share {
+	requires 'Alien::cmake3';
+
 	plugin Download => (
 		url => 'https://github.com/zeromq/libzmq/releases',
 		version => qr/zeromq-([\d\.]+)\.tar\.gz/,
@@ -11,16 +13,17 @@ share {
 
 	plugin Extract => 'tar.gz';
 
-	plugin 'Build::Autoconf';
 	my $enable_static = $^O ne 'MSWin32';
+	plugin 'Build::CMake';
 	build [
-		join(' ', (
-			'%{configure}',
-			$enable_static ? '--enable-static' : '--disable-static',
-			'--enable-shared'
-		)),
-		'%{make}',
-		'%{make} install',
+		[ '%{cmake}', -G => '%{cmake_generator}',
+			'-DCMAKE_INSTALL_PREFIX:PATH=%{.install.prefix}',
+			"-DBUILD_STATIC=@{[ $enable_static ? 'ON' : 'OFF' ]}",
+			qw(-S .),
+			qw(-B build),
+		],
+		[ '%{make}', qw( -C build ) ],
+		[ '%{make}', qw( -C build ), 'install' ],
 	];
 
 	plugin 'Gather::Dino';
