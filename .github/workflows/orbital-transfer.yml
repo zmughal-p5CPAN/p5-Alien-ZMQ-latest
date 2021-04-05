@@ -14,11 +14,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       ORBITAL_COVERAGE:    ${{ matrix.coverage }}
+      ALIEN_INSTALL_TYPE:  ${{ matrix.alien_install_type }}
     strategy:
       fail-fast: true
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         coverage: ['']
+        alien_install_type: [ 'share', 'system' ]
         include:
           - os: 'ubuntu-latest'
             coverage: coveralls
