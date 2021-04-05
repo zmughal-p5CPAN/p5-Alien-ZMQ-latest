@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }} ${{ matrix.joblabel }}
+    name: "${{ matrix.os }} (alien_install_type: ${{ matrix.alien_install_type }}) ${{ matrix.joblabel }}"
     runs-on: ${{ matrix.os }}
     env:
       ORBITAL_COVERAGE:    ${{ matrix.coverage }}
